@@ -18,7 +18,7 @@ var (
 		Short: "DDNS for your home lab.",
 		Long:  "A flexible DDNS tool for your home server, Raspberry Pi cluster, or just about anything else.",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Fprintf(cmd.OutOrStdout(), "Hello world %s!\n", "Ivan")
+			fmt.Fprintf(cmd.OutOrStdout(), "Hello world %s!\n", viper.Get("author"))
 		},
 	}
 )

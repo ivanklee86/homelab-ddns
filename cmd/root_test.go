@@ -2,8 +2,7 @@ package cmd
 
 import (
 	"bytes"
-	"fmt"
-	//"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"testing"
 )
@@ -11,6 +10,7 @@ import (
 func TestRoot(t *testing.T) {
 	b := bytes.NewBufferString("")
 	rootCmd.SetOut(b)
+	rootCmd.SetArgs([]string{"--config", "_testdata/test.yaml"})
 	rootCmd.Execute()
 
 	out, err := ioutil.ReadAll(b)
@@ -18,6 +18,5 @@ func TestRoot(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	fmt.Printf("%s", out)
-	//assert.Equal(t, "Hello world!", string(out))
+	assert.Contains(t, string(out), "Hello world Ivan!")
 }
