@@ -6,18 +6,19 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
+	"strings"
 )
 
 var (
 	// Used for flags.
 	cfgFile     string
-	userLicense string
+
 	rootCmd = &cobra.Command{
 		Use:   "homelab-ddns",
 		Short: "DDNS for your home lab.",
 		Long:  "A flexible DDNS tool for your home server, Raspberry Pi cluster, or just about anything else.",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Fprintf(cmd.OutOrStdout(), "Hello world %s!\n", viper.Get("author"))
+			fmt.Fprintf(cmd.OutOrStdout(), "Hello world %s!\n", "Ivan")
 		},
 	}
 )
@@ -38,13 +39,6 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
-	rootCmd.PersistentFlags().StringP("author", "a", "YOUR NAME", "author name for copyright attribution")
-	rootCmd.PersistentFlags().StringVarP(&userLicense, "license", "l", "", "name of license for the project")
-	rootCmd.PersistentFlags().Bool("viper", true, "use Viper for configuration")
-	viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author"))
-	viper.BindPFlag("useViper", rootCmd.PersistentFlags().Lookup("viper"))
-	viper.SetDefault("author", "NAME HERE <EMAIL ADDRESS>")
-	viper.SetDefault("license", "apache")
 }
 
 func initConfig() {
@@ -63,6 +57,9 @@ func initConfig() {
 		viper.SetConfigName(".homelab-ddns")
 	}
 
+	replacer := strings.NewReplacer(".", "_")
+	viper.SetEnvKeyReplacer(replacer)
+	viper.SetEnvPrefix("HOMELABDDNS")
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err == nil {
