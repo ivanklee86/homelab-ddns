@@ -4,8 +4,11 @@ import (
 	"bytes"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
+	"regexp"
 	"testing"
 )
+
+var ip_regex = ".*\\d{1,}\\.\\d{1,}\\.\\d{1,}\\.\\d{1,}\\."
 
 func TestUpdate(t *testing.T) {
 	b := bytes.NewBufferString("")
@@ -18,6 +21,5 @@ func TestUpdate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, "WIP", string(out))
-
+	assert.Regexp(t, regexp.MustCompile(ip_regex), string(out))
 }
