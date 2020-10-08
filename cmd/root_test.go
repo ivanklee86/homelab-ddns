@@ -10,6 +10,7 @@ import (
 func TestRoot(t *testing.T) {
 	b := bytes.NewBufferString("")
 	rootCmd.SetOut(b)
+	rootCmd.SetArgs([]string{"--config", "_testdata/test.yaml"})
 	rootCmd.Execute()
 
 	out, err := ioutil.ReadAll(b)
@@ -17,6 +18,5 @@ func TestRoot(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, "Hello world!", string(out))
-
+	assert.Contains(t, string(out), "Hello world Ivan!")
 }
