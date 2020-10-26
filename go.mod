@@ -3,6 +3,7 @@ module github.com/ivanklee86/homelab-ddns
 go 1.14
 
 require (
+	github.com/cloudflare/cloudflare-go v0.13.4
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/rdegges/go-ipify v0.0.0-20150526035502-2d94a6a86c40
